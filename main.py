@@ -36,6 +36,8 @@ pygame.display.set_icon(icon)
 player_x = PLAYER_START_X
 player_y = PLAYER_START_Y
 player_x_change = 0
+def player(x, y):
+    screen.blit(player_img, (x, y))
 
 # Enemy track lists and number of enemies
 enemy_image = []
@@ -52,6 +54,8 @@ for _i in range(num_of_enemies):
     enemy_y.append(random.randint(ENEMY_START_Y_MIN, ENEMY_START_Y_MAX))
     enemy_x_change.append(ENEMY_SPEED_X)
     enemy_y_change.append(ENEMY_SPEED_Y)
+def enemy(x, y, i):
+    screen.blit(enemy_image[i], (x, y))
 
 # Creating bullet
 bullet_x = 0
@@ -59,8 +63,12 @@ bullet_y = PLAYER_START_Y
 bullet_x_change = 0
 bullet_y_change = BULLET_SPEED_Y
 bullet_state = "ready"
+def fire_bullet(x, y):
+    global bullet_state
+    bullet_state = "fire"
+    screen.blit(bullet_img, (x + 16, y + 10))
 
-# Score text
+# Score text & function
 score = 0
 score_font = pygame.font.Font("Times New Roman", 35)
 txt_x = 10
@@ -69,5 +77,13 @@ def show_score(x, y):
     display_score = score_font.render("Score : " + str(score), True, (255,255,0))
     screen.blit(display_score, (x, y))
 
-# Game over text
-gmaeover_font = pygame.font.Font("freesansbold.ttf", 65)
+# Game over text & function
+gameover_font = pygame.font.Font("freesansbold.ttf", 65)
+def show_gameover(x, y):
+    display_gameover = gameover_font.render("GAME OVER", True, (0,255,0))
+    screen.blit(display_gameover, (x, y))
+
+# Collision function
+def isCollided(enemy_x, enemy_y, bullet_x, bullet_y):
+    distance = math.sqrt((enemy_x - bullet_x) ** 2 + (enemy_y - bullet_y) ** 2)
+    return distance < COLLISION_DISTANCE
