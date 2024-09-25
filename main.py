@@ -18,6 +18,9 @@ ENEMY_SPEED_Y = 40
 BULLET_SPEED_Y = 10
 COLLISION_DISTANCE = 27
 
+# Control variable
+done = False
+
 # Creating the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 
@@ -70,7 +73,7 @@ def fire_bullet(x, y):
 
 # Score text & function
 score = 0
-score_font = pygame.font.Font("Times New Roman", 35)
+score_font = pygame.font.Font("freesansbold.ttf", 35)
 txt_x = 10
 txt_y = 10
 def show_score(x, y):
@@ -87,3 +90,13 @@ def show_gameover(x, y):
 def isCollided(enemy_x, enemy_y, bullet_x, bullet_y):
     distance = math.sqrt((enemy_x - bullet_x) ** 2 + (enemy_y - bullet_y) ** 2)
     return distance < COLLISION_DISTANCE
+
+while not done:
+    clock = pygame.time.Clock()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done = True
+    screen.blit(bg, (0, 0))
+    pygame.display.flip()
+    clock.tick(90)
+pygame.quit()
